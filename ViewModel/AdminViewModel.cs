@@ -44,7 +44,7 @@ namespace NetCoreAdminInfo.ViewModel
         }
     public class DocMapModel
     {
-        public int DocumentId { get; set; }
+        public int MapId { get; set; }
         public int AdminId { get; set; }
         public string FilePath { get; set; }
         public string FileName { get; set; }

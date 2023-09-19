@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NetCoreAdminInfo.Entity;
 using NetCoreAdminInfo.ViewModel;
+using EFCore.BulkExtensions;
 
 namespace NetCoreAdminInfo.Controllers
 {
@@ -78,8 +79,52 @@ namespace NetCoreAdminInfo.Controllers
             //Uploading Image of User
 
             db.AdminDetails.Add(admin);
-
             await db.SaveChangesAsync();
+
+            //Uploading Documents of User
+            if (model.DocsFile.Count > 0)
+            {
+                List<MapDocAdmin> documentList = new List<MapDocAdmin>();   
+
+                foreach (var file in model.DocsFile)
+                {
+                    MapDocAdmin docMap = new MapDocAdmin();
+
+                    string docPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files/Docs");
+
+                    //create folder if not exist
+                    if (!Directory.Exists(docPath))
+                        Directory.CreateDirectory(docPath);
+
+                    FileInfo docinfo = new FileInfo(file.FileName);
+                    string docname = docinfo.ToString();
+
+                    string fileNameWithDocPath = Path.Combine(docPath, file.FileName);
+
+                    using (var stream = new FileStream(fileNameWithDocPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+                    //to store in doc mapping table
+                    string docFilePath = "~/wwwroot/files/Docs/" + docname;
+
+                    docMap.AdminId = admin.AdminId;
+                    docMap.FileName = docname;
+                    docMap.FilePath = docFilePath;
+                    documentList.Add(docMap);
+                }
+                    model.IsSuccess = true;
+                    model.Message = "Files Uploaded Successfully!!";
+                    db.BulkInsert(documentList);
+                    ModelState.AddModelError(string.Empty, "Admin Created Successfully!");
+            }
+            else
+            {
+                model.IsSuccess = false;
+                model.Message = "Please select files";
+            }
+            //Uploading Documents of User
+
 
             return RedirectToAction("Create",model);   
         }
