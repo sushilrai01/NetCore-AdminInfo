@@ -1,0 +1,110 @@
+﻿@model NetCoreAdminInfo.ViewModel.AdminInfoModel
+
+@* @{
+    ViewData["Title"] = "Create";
+}; *@
+
+<h1>Create</h1>
+
+<h4>Admin Detail</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" asp-controller="Admin" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="AdminId" type="hidden" />
+
+           @*  @if (Model.IsResponse)
+            {
+                if (Model.IsSuccess)
+                {
+                    <div class="alert alert-success">
+                        @Model.Message
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        @Model.Message
+                    </div>
+                }
+            }
+ *@
+            <div class="form-group">
+                <label asp-for="AdminName" class="control-label"></label>
+                <input asp-for="AdminName" class="form-control" />
+                <span asp-validation-for="AdminName" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+            <label asp-for="GenderId" class="control-label"></label>
+            <select asp-for="GenderId" class="form-control" asp-items="@(new SelectList(Model.GenList, "ID", "TEXT"))"></select>
+            </div>
+
+            <div class="form-group">
+              <label >Select Hobbies:</label><br />
+              <div>
+                @for (var index = 0; index < @Model.HobList.Count(); index++)
+                {
+                    <input type="checkbox" asp-for="@Model.HobList[index].IsActive" class="form-check-input" />
+                    <label class="form-check-label" asp-for="@Model.HobList[index].IsActive">
+                        @Model.HobList[index].Hobby
+                    </label>
+                    <input type="hidden" asp-for="@Model.HobList[index].HobbyId" />
+                    <input type="hidden" asp-for="@Model.HobList[index].Hobby" />
+                    <br />
+                }
+               </div>
+            </div>
+
+            <div class="form-group">
+              <label asp-for="ActiveId">Is Active?</label>
+                <div >
+                    @for (var i=0; i< Model.ActList.Count(); i++)
+                    {
+                     <span>
+                        <input asp-for="ActiveId" value="@Model.ActList[i].ID" type="radio" />
+                        <label asp-for=" @Model.ActList[i].ID"> @Model.ActList[i].TEXT</label>
+                        <input asp-for="@Model.ActList[i].ID" type="hidden" />
+                     </span>
+                    }
+                    @Html.ValidationMessageFor(model => model.ActiveId, "", new { @class = "text-danger" })
+                </div>
+             </div>
+
+            <div class="row mt-2">
+                <div class="col-12">
+                    <label class="col-form-label">Select Photo</label>
+                    <input asp-for="ImageFile" class="form-control" required accept="image/*" />
+                    <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group  mt-2">
+                <label asp-for="RegisterDate" class="control-label"></label>
+                <input asp-for="RegisterDate" class="form-control" />
+                <span asp-validation-for="RegisterDate" class="text-danger"></span>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <label class="col-form-label">Select Files</label>
+                    <input asp-for="DocsFile" class="form-control" multiple required/>
+                    <span asp-validation-for="DocsFile" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group mt-2">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Web;
 
 namespace NetCoreAdminInfo.ViewModel
@@ -54,59 +55,15 @@ namespace NetCoreAdminInfo.ViewModel
             public string TEXT { get; set; }
         }
 
-        public class HobbiesModel
-        {
-            public List<DriverInfoModel> thuloModel { get; set; }
-            public bool Football { get; set; }
-            public bool Cricket { get; set; }
-            public bool Basketball { get; set; }
-            public bool Singing { get; set; }
-            public bool Dancing { get; set; }
-            public bool Reading { get; set; }
-            public bool Travelling { get; set; }
-        }
+    public class ResponseModel
+    {
+        public string? Message { get; set; }
+        public bool IsSuccess { get; set; }
+        public bool IsResponse { get; set; }
+    }
 
-    #nullable disable
-    public class DriverInfoModel
-        {
-            public int DriverId { get; set; }
-            public string DriverName { get; set; }
-            public string ContactNo { get; set; }
-            public int GenderId { get; set; }
-            public string Category { get; set; }
-            public int ActiveId { get; set; }
-            public string Available { get; set; }
-            public int ImageId { get; set; }
-            public string ImageFilePath { get; set; }   //To show Image
-            public string DocsFilePath { get; set; }   //To show Documents
-
-            //Hobbies.......
-            public bool Football { get; set; }
-            public bool Cricket { get; set; }
-            public bool Basketball { get; set; }
-            public bool Singing { get; set; }
-            public bool Dancing { get; set; }
-            public bool Reading { get; set; }
-            public bool Travelling { get; set; }
-
-            //[Required(ErrorMessage = "Please Select A Hobby.")]
-            public string Hobby { get; set; } //$ >_Concatenated hobbies here
-            public int MapId { get; set; }
-
-            public List<ImageMapModel> FileList { get; set; }
-            public List<HobbiesModel> HobbyList { get; set; }
-            public List<HobbyModel> HobList { get; set; }
-            public List<DropdownModel> GenList { get; set; }
-            public List<DropdownModel> ActList { get; set; }
-
-            internal object AddModelError()
-            {
-                throw new NotImplementedException("!!Please Select a hobby!");
-            }
-        }
-
-    #nullable disable
-    public class AdminInfoModel
+#nullable disable
+    public class AdminInfoModel : ResponseModel 
     {
         public int AdminId { get; set; }
         public string AdminName { get; set; }
@@ -116,7 +73,7 @@ namespace NetCoreAdminInfo.ViewModel
         public int ActiveId { get; set; }
         public string ImageFilePath { get; set; }   //To show Image
         public string DocFilePath { get; set; }   //To show Documents
-
+        public DateTime RegisterDate { get; set; }
         //Hobbies.......
         public bool Football { get; set; }
         public bool Cricket { get; set; }
@@ -130,8 +87,15 @@ namespace NetCoreAdminInfo.ViewModel
         public string Hobby { get; set; } //$ >_Concatenated hobbies here
         public int MapId { get; set; }
 
-        public List<ImageMapModel> FileList { get; set; }
-        public List<HobbiesModel> HobbyList { get; set; }
+        //UPLOADING IMAGE AND DOCUMENT/S
+        [Required(ErrorMessage = "Please select file")]
+        public IFormFile ImageFile { get; set; }
+
+        [Required(ErrorMessage = "Please select xfiles")]
+        public List<IFormFile> DocsFile { get; set; }
+
+        //lists
+        public List<DocMapModel> DocsList { get; set; }
         public List<HobbyModel> HobList { get; set; }
         public List<DropdownModel> GenList { get; set; }
         public List<DropdownModel> ActList { get; set; }
