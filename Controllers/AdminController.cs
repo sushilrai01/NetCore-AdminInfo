@@ -115,7 +115,7 @@ namespace NetCoreAdminInfo.Controllers
                 }
                     model.IsSuccess = true;
                     model.Message = "Files Uploaded Successfully!!";
-                    db.BulkInsert(documentList);
+                    db.BulkInsert(documentList); //BULK INSERT into DATABASE....
                     ModelState.AddModelError(string.Empty, "Admin Created Successfully!");
             }
             else
@@ -125,6 +125,21 @@ namespace NetCoreAdminInfo.Controllers
             }
             //Uploading Documents of User
 
+            List<MapDriverHob> HobbyMapList = new List<MapDriverHob>();
+            //model.HobList
+            foreach(var hob in model.HobList)
+            {
+                if (hob.IsActive)
+                {
+                    MapDriverHob HobbyMap = new MapDriverHob();
+                    HobbyMap.DriverId = admin.AdminId; //Using DriverID as AdminID
+                    HobbyMap.HobbyId = hob.HobbyId;
+                    //Append to list 
+                    HobbyMapList.Add(HobbyMap);
+                }
+            }
+
+            db.BulkInsert(HobbyMapList);
 
             return RedirectToAction("Create",model);   
         }
