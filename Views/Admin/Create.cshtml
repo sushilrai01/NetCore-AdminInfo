@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-success"></div>
             <input asp-for="AdminId" type="hidden" />
 
-           @*  @if (Model.IsResponse)
+            @if (Model.IsResponse)
             {
                 if (Model.IsSuccess)
                 {
@@ -29,7 +29,7 @@
                     </div>
                 }
             }
- *@@* 
+
             <div class="form-group">
                 <label asp-for="AdminName" class="control-label"></label>
                 <input asp-for="AdminName" class="form-control" />
@@ -78,10 +78,10 @@
                     <input asp-for="ImageFile" class="form-control" required accept="image/*" />
                     <span asp-validation-for="ImageFile" class="text-danger"></span>
                 </div>
-            </div> *@
+            </div>
             <div class="form-group  mt-2">
                 <label asp-for="RegisterDate" class="control-label"></label>
-                <input type="text" asp-for="RegisterDate" class="form-control" id="RegisterDate" placeholder="Select Nepali Date" />
+                <input type="text" asp-for="RegisterDate" class="form-control" id="RegisterDate" />
                 <span asp-validation-for="RegisterDate" class="text-danger"></span>
             </div>
 

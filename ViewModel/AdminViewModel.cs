@@ -73,7 +73,7 @@ namespace NetCoreAdminInfo.ViewModel
         public int ActiveId { get; set; }
         public string ImageFilePath { get; set; }   //To show Image
         public string DocFilePath { get; set; }   //To show Documents
-        public DateTime RegisterDate { get; set; }
+        public DateTime? RegisterDate { get; set; }
         //Hobbies.......
         public bool Football { get; set; }
         public bool Cricket { get; set; }

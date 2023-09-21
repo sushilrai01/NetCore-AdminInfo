@@ -21,12 +21,12 @@ namespace NetCoreAdminInfo.Controllers
         public IActionResult Create()
         {
             AdminInfoModel model = new AdminInfoModel();
-            //model.GenList = db.GenderTables
-            //                    .Select(x => new DropdownModel { ID = x.GenderId, TEXT = x.Category }).ToList();
-            //model.ActList = db.ActivityTables
-            //                  .Select(x => new DropdownModel { ID = x.IsActive, TEXT = x.Available }).ToList();
-            //model.HobList = db.HobbyTables
-            //                 .Select(x => new HobbyModel { HobbyId = x.HobbyId, Hobby = x.Hobby, IsActive = x.IsActive == null ? false : x.IsActive.Value }).ToList();
+            model.GenList = db.GenderTables
+                                .Select(x => new DropdownModel { ID = x.GenderId, TEXT = x.Category }).ToList();
+            model.ActList = db.ActivityTables
+                              .Select(x => new DropdownModel { ID = x.IsActive, TEXT = x.Available }).ToList();
+            model.HobList = db.HobbyTables
+                             .Select(x => new HobbyModel { HobbyId = x.HobbyId, Hobby = x.Hobby, IsActive = x.IsActive == null ? false : x.IsActive.Value }).ToList();
 
             return View(model);
         }
